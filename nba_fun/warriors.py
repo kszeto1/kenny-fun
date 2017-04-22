@@ -11,3 +11,5 @@ lines = open(filename, 'r').readlines()
 
 for line in lines:
     print(line)
+
+print('done')
