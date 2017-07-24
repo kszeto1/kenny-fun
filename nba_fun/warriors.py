@@ -13,15 +13,15 @@ print os.getcwd()
 lines = open(filename, 'r').readlines()
 
 def GSW_who_scored():
-    index = []
-    for string in lines:
-        if "makes" in string:
-            for e in roster:
-                if e in string:
-                    if e not in index:
-                        index.append(e)
-                    if e in index:
+    players_who_have_scored = []
+    for play_by_play_string in lines:
+        if "makes" in play_by_play_string:
+            for player in roster:
+                if player in play_by_play_string:
+                    if player not in players_who_have_scored:
+                        players_who_have_scored.append(player)
+                    if player in players_who_have_scored:
                         break
-    print 'In the first quarter, the following players made a basket for Golden State: ' + str(index)
+    print 'In the first quarter, the following players made a basket for Golden State: ' + str(players_who_have_scored)
 
 GSW_who_scored()
