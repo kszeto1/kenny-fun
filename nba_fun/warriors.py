@@ -25,20 +25,3 @@ def GSW_who_scored():
     print 'In the first quarter, the following players made a basket for Golden State: ' + str(index)
 
 GSW_who_scored()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
