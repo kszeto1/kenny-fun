@@ -1,3 +1,4 @@
+import re
 import os
 import pprint
 
@@ -14,11 +15,11 @@ roster = ('Kevin Durant', 'Klay Thompson', 'David West', 'Damian Jones', 'JaVale
           'Matt Barnes', 'Ian Clark', 'Stephen Curry', 'Draymond Green', 'Andre Iguodala', 'Shaun Livingston',
           'Kevon Looney', 'James Michael McAdoo', 'Patrick McCaw', 'Zaza Pachulia')
 
-filename = 'lal-vs-gsw-412-quarter1.txt'
+# Note that I've changed this to make the file finding a lot more flexible.
+# It's worth reading the os documentation to see what I'm doing.
+full_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lal-vs-gsw-412-quarter1.txt')
 
-os.chdir('D:\\Users\\Kenny\\Desktop\\kenny-fun\\nba_fun')
-print os.getcwd()
-lines = open(filename, 'r').readlines()
+lines = open(full_file_path, 'r').readlines()
 
 def get_roster_stats():
     # Your code here
