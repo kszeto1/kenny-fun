@@ -6,10 +6,10 @@ import re
 # Note that you'll have to handle several cases to do this correctly. I won't specify what those cases are.
 # Part of the exercise is to figure out those cases yourself.
 # Your function should return something like
-# {'Kevin Durant': 15, 'Andre Iguodala': 0}. 
+# {'Kevin Durant': 15, 'Andre Iguodala': 0}.
 # I didn't include all the players but you get the idea. You should include any player who didn't score as having zero points.
 # A good strategy would be create a starting dictionary where every player has 0 points, then loop through the play by play string and
-# add points accordingly. 
+# add points accordingly.
 
 roster = ('Kevin Durant', 'Klay Thompson', 'David West', 'Damian Jones', 'JaVale McGee',
           'Matt Barnes', 'Ian Clark', 'Stephen Curry', 'Draymond Green', 'Andre Iguodala', 'Shaun Livingston',
