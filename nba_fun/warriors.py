@@ -42,30 +42,8 @@ def get_player_scores():
     print p.groups()
     m = re.search("makes", lines)
     # if p and m:
-
-            # dict[e] = 3
-            # if dict[e] > 0:
-            # dict[p] += 3
-
-# print dict
-# for e in digits:
-#     numbers = re.findall(r'\d+', digits)
-# print digits
-
-# players_stats = {}
-# for key in range(len(roster)):
-#     players_stats[roster[key]] = 0
-# dwest = str(roster[2])
-# for key in players_stats:
-#     if key == dwest:
-#         players_stats[key] = 67
-#         if players_stats[key] == 67:
-#             players_stats[key] += 33
-#     if key == roster[0]:
-#         players_stats[key] += 2
-#     if 'a' in key[1].lower():
-#         players_stats[key] += 3
-#     if 'curry' in key.lower():
-#         players_stats[key] += 30
+        # dict[e] = 3
+        # if dict[e] > 0:
+        # dict[p] += 3
 
 # pprint.pprint(get_player_scores)
