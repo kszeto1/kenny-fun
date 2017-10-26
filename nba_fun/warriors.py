@@ -33,14 +33,28 @@ roster_regex = '(' + ('|'.join(roster)) + ')'
 # pattern_players = re.compile(roster_regex)
 print roster_regex
 
+points_regex = ' makes ' + '(free|\d+-foot|three point)'
+print points_regex
+
 def get_roster_stats():
     for play in play_by_play:
-        p = re.search(roster_regex + ' makes free ', play)
-        if p:
+        p = re.search(roster_regex + points_regex, play)
+        if p and "free" in play:
             print 'Match found: ', p.group()
+            extracted_player = p.group(1)
+            print extracted_player
+            dict[extracted_player] += 1
+            extracted_player = ''
+        elif p and " makes \d+-foot" in play:
+            print 'Match found: ', p.group()
+            extracted_player = p.group(1)
+            print extracted_player
+            dict[extracted_player] += 2
+            extracted_player = ''
         else:
             print 'No match', play
 
+    pprint.pprint(dict)
     # if p and m:
         # dict[e] = 3
         # if dict[e] > 0:
