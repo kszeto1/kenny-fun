@@ -19,31 +19,33 @@ filename = 'lal-vs-gsw-412-quarter1.txt'
 
 os.chdir('D:\\Users\\Kenny\\Desktop\\kenny-fun\\nba_fun')
 print os.getcwd()
-lines = open(filename, 'r').readlines()
-lines = '\n'.join(lines)
-# print lines
+play_by_play = open(filename, 'r').readlines()
+# lines = '\n'.join(lines)
+print play_by_play
 
 
 dict = {}
-for e in roster:
-    dict[e] = 0
+for player in roster:
+    dict[player] = 0
 print dict
 
-roster1 = ('|'.join(roster))
-roster1 = '(' + roster1 + ')'
-pattern_players = re.compile(roster1)
-print roster1
+roster_regex = '(' + ('|'.join(roster)) + ')'
+# pattern_players = re.compile(roster_regex)
+print roster_regex
 
-def get_player_scores():
-    for n in lines:
-        p = re.search(roster1, n)
-        # if p is None:
-        #     return None
-    print p.groups()
-    m = re.search("makes", lines)
+def get_roster_stats():
+    for play in play_by_play:
+        p = re.search(roster_regex + ' makes free ', play)
+        if p:
+            print 'Match found: ', p.group()
+        else:
+            print 'No match', play
+
     # if p and m:
         # dict[e] = 3
         # if dict[e] > 0:
         # dict[p] += 3
 
-# pprint.pprint(get_player_scores)
+get_roster_stats()
+
+# pprint.pprint(get_roster_stats)
