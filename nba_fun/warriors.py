@@ -27,29 +27,38 @@ print play_by_play
 dict = {}
 for player in roster:
     dict[player] = 0
-print dict
+
 
 roster_regex = '(' + ('|'.join(roster)) + ')'
 # pattern_players = re.compile(roster_regex)
-print roster_regex
+print 'roster_regex: ' + roster_regex
 
-points_regex = ' makes ' + '(free|\d+-foot|three point)'
-print points_regex
+one_point_regex = roster_regex + " makes free"
+two_point_regex = roster_regex + " makes \d+\-foot two"
+three_point_regex = roster_regex + " makes \d+\-foot three"
 
 def get_roster_stats():
     for play in play_by_play:
-        p = re.search(roster_regex + points_regex, play)
-        if p and "free" in play:
+        p = (re.search(one_point_regex, play))
+        p = (re.search(two_point_regex, play))
+        p = (re.search(three_point_regex, play))
+        if p and (re.search(' makes free', p.group())):
             print 'Match found: ', p.group()
             extracted_player = p.group(1)
             print extracted_player
             dict[extracted_player] += 1
             extracted_player = ''
-        elif p and " makes \d+-foot" in play:
+        elif p and (re.search(' makes \d+\-foot two', p.group())):
             print 'Match found: ', p.group()
             extracted_player = p.group(1)
             print extracted_player
             dict[extracted_player] += 2
+            extracted_player = ''
+        elif p and (re.search(' makes \d+\-foot three', p.group())):
+            print 'Match found: ', p.group()
+            extracted_player = p.group(1)
+            print extracted_player
+            dict[extracted_player] += 3
             extracted_player = ''
         else:
             print 'No match', play
