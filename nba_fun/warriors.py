@@ -43,19 +43,19 @@ def get_roster_stats():
         one_point_scored = (re.search(one_point_regex, play))
         two_point_scored = (re.search(two_point_regex, play))
         three_point_scored = (re.search(three_point_regex, play))
-        if one_point_scored and (re.search(' makes free', one_point_scored.group())):
+        if one_point_scored:
             print 'Match found: ', one_point_scored.group()
             extracted_player = one_point_scored.group(1)
             print extracted_player
             dict[extracted_player] += 1
             extracted_player = ''
-        elif two_point_scored and (re.search(' (makes \d+\-foot two point|two point)', two_point_scored.group())):
+        elif two_point_scored:
             print 'Match found: ', two_point_scored.group()
             extracted_player = two_point_scored.group(1)
             print extracted_player
             dict[extracted_player] += 2
             extracted_player = ''
-        elif three_point_scored and (re.search(' makes \d+\-foot three point', three_point_scored.group())):
+        elif three_point_scored:
             print 'Match found: ', three_point_scored.group()
             extracted_player = three_point_scored.group(1)
             print extracted_player
