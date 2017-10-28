@@ -34,29 +34,30 @@ roster_regex = '(' + ('|'.join(roster)) + ')'
 print 'roster_regex: ' + roster_regex
 
 one_point_regex = roster_regex + " makes free"
-two_point_regex = roster_regex + " makes \d+\-foot two"
-three_point_regex = roster_regex + " makes \d+\-foot three"
+two_point_regex = roster_regex + " makes (two point|\d+\-foot two point)"
+three_point_regex = roster_regex + " makes \d+\-foot three point"
+
 
 def get_roster_stats():
     for play in play_by_play:
-        p = (re.search(one_point_regex, play))
-        p = (re.search(two_point_regex, play))
-        p = (re.search(three_point_regex, play))
-        if p and (re.search(' makes free', p.group())):
-            print 'Match found: ', p.group()
-            extracted_player = p.group(1)
+        one_point_scored = (re.search(one_point_regex, play))
+        two_point_scored = (re.search(two_point_regex, play))
+        three_point_scored = (re.search(three_point_regex, play))
+        if one_point_scored and (re.search(' makes free', one_point_scored.group())):
+            print 'Match found: ', one_point_scored.group()
+            extracted_player = one_point_scored.group(1)
             print extracted_player
             dict[extracted_player] += 1
             extracted_player = ''
-        elif p and (re.search(' makes \d+\-foot two', p.group())):
-            print 'Match found: ', p.group()
-            extracted_player = p.group(1)
+        elif two_point_scored and (re.search(' (makes \d+\-foot two point|two point)', two_point_scored.group())):
+            print 'Match found: ', two_point_scored.group()
+            extracted_player = two_point_scored.group(1)
             print extracted_player
             dict[extracted_player] += 2
             extracted_player = ''
-        elif p and (re.search(' makes \d+\-foot three', p.group())):
-            print 'Match found: ', p.group()
-            extracted_player = p.group(1)
+        elif three_point_scored and (re.search(' makes \d+\-foot three point', three_point_scored.group())):
+            print 'Match found: ', three_point_scored.group()
+            extracted_player = three_point_scored.group(1)
             print extracted_player
             dict[extracted_player] += 3
             extracted_player = ''
