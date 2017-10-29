@@ -20,8 +20,6 @@ filename = 'lal-vs-gsw-412-quarter1.txt'
 os.chdir('D:\\Users\\Kenny\\Desktop\\kenny-fun\\nba_fun')
 print os.getcwd()
 play_by_play = open(filename, 'r').readlines()
-# lines = '\n'.join(lines)
-print play_by_play
 
 
 dict = {}
@@ -30,11 +28,10 @@ for player in roster:
 
 
 roster_regex = '(' + ('|'.join(roster)) + ')'
-# pattern_players = re.compile(roster_regex)
-print 'roster_regex: ' + roster_regex
+
 
 one_point_regex = roster_regex + " makes free"
-two_point_regex = roster_regex + " makes (two point|\d+\-foot two point)"
+two_point_regex = roster_regex + " makes (two point|layup|driving dunk|tip|\d+\-foot jumper|\d+\-foot two point)"
 three_point_regex = roster_regex + " makes \d+\-foot three point"
 
 
@@ -46,30 +43,22 @@ def get_roster_stats():
         if one_point_scored:
             print 'Match found: ', one_point_scored.group()
             extracted_player = one_point_scored.group(1)
-            print extracted_player
             dict[extracted_player] += 1
             extracted_player = ''
         elif two_point_scored:
             print 'Match found: ', two_point_scored.group()
             extracted_player = two_point_scored.group(1)
-            print extracted_player
             dict[extracted_player] += 2
             extracted_player = ''
         elif three_point_scored:
             print 'Match found: ', three_point_scored.group()
             extracted_player = three_point_scored.group(1)
-            print extracted_player
             dict[extracted_player] += 3
             extracted_player = ''
         else:
             print 'No match', play
 
     pprint.pprint(dict)
-    # if p and m:
-        # dict[e] = 3
-        # if dict[e] > 0:
-        # dict[p] += 3
 
 get_roster_stats()
 
-# pprint.pprint(get_roster_stats)
