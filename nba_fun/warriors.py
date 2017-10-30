@@ -22,9 +22,9 @@ print os.getcwd()
 play_by_play = open(filename, 'r').readlines()
 
 
-dict = {}
+player_scores = {}
 for player in roster:
-    dict[player] = 0
+    player_scores[player] = 0
 
 
 roster_regex = '(' + ('|'.join(roster)) + ')'
@@ -43,22 +43,19 @@ def get_roster_stats():
         if one_point_scored:
             print 'Match found: ', one_point_scored.group()
             extracted_player = one_point_scored.group(1)
-            dict[extracted_player] += 1
-            extracted_player = ''
+            player_scores[extracted_player] += 1
         elif two_point_scored:
             print 'Match found: ', two_point_scored.group()
             extracted_player = two_point_scored.group(1)
-            dict[extracted_player] += 2
-            extracted_player = ''
+            player_scores[extracted_player] += 2
         elif three_point_scored:
             print 'Match found: ', three_point_scored.group()
             extracted_player = three_point_scored.group(1)
-            dict[extracted_player] += 3
-            extracted_player = ''
+            player_scores[extracted_player] += 3
         else:
             print 'No match', play
 
-    pprint.pprint(dict)
+    pprint.pprint(player_scores)
 
 get_roster_stats()
 
