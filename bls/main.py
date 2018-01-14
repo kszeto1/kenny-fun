@@ -14,7 +14,7 @@ def get_bls_key():
 
 
 # Task
-series_id = 'CEU0800000001'
+series_id = 'CE U 08000000 01'.replace(' ', '')
 url = 'https://api.bls.gov/publicAPI/v2/timeseries/data'
 api_key = get_bls_key()
 r = requests.post(url=url, json={'seriesid': [series_id],
