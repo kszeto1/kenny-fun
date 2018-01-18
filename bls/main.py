@@ -33,18 +33,28 @@ r = requests.post(url=url, json={'seriesid': [series_id],
 
 r = r['Results']['series'][0]['data']
 
-df = pd.io.json.json_normalize(r)
-df.columns = df.columns.map(lambda x: x.split(".")[-1])
+
+df = pd.DataFrame(r)
+# df = pd.io.json.json_normalize(r)
+# df.columns = df.columns.map(lambda x: x.split(".")[-1])
+# df.sort_index(by='year', ascending=False)
+df = df[::-1]
+
+df.index = range(0,120, 1)
 print(df)
 
-# plt.figure()
-# x = df['periodName','year']
-# y = df['value']
-# plt.plot(x,y)
-# plt.show()
-
 df = pd.to_numeric(df['value'])
-df.plot(x='periodName',y='value')
+# df['year'] = df['year'].astype(str)
+
+df.plot()
+# ax.set_xticklabels(df.year)
+plt.minorticks_on()
+plt.grid(which='both')
+plt.ylabel("Number of Employees (in thousands)")
+
+
 plt.show()
+
+# print(df['year'])
 # Goal: Understand that the series id means and graph the output
 
