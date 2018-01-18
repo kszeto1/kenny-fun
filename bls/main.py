@@ -1,5 +1,7 @@
 import pprint
 import requests
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def get_bls_key():
@@ -14,14 +16,35 @@ def get_bls_key():
 
 
 # Task
-series_id = 'CE U 08000000 01'.replace(' ', '')
+coal_series = {'id': 'CEU1021210001',
+               'name': 'Number of Coal Employees'}
+
+gas_series = {'id': 'CEU1021100001',
+              'name': 'Number of Gas Employees'}
+
+series_id = 'CEU 1021100001'.replace(' ', '')
 url = 'https://api.bls.gov/publicAPI/v2/timeseries/data'
 api_key = get_bls_key()
 r = requests.post(url=url, json={'seriesid': [series_id],
-                                 'startyear': '2014',
+                                 'startyear': '2008',
                                  'endyear': '2017',
-                                 'registrationkey': api_key})
-pprint.pprint(r.json())
+                                 'registrationkey': api_key}).json()
 
+
+r = r['Results']['series'][0]['data']
+
+df = pd.io.json.json_normalize(r)
+df.columns = df.columns.map(lambda x: x.split(".")[-1])
+print(df)
+
+# plt.figure()
+# x = df['periodName','year']
+# y = df['value']
+# plt.plot(x,y)
+# plt.show()
+
+df = pd.to_numeric(df['value'])
+df.plot(x='periodName',y='value')
+plt.show()
 # Goal: Understand that the series id means and graph the output
 
