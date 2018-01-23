@@ -1,10 +1,8 @@
-import arrow
-import pprint
 import requests
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
-import datetime
+from matplotlib.ticker import AutoMinorLocator
+
 
 
 
@@ -26,9 +24,6 @@ coal_series = {'id': 'CEU1021210001',
 gas_series = {'id': 'CEU1021100001',
               'name': 'Number of Gas Employees'}
 
-date1 = arrow.get(2008, 1, 1)
-date2 = arrow.get(2017, 12, 1)
-
 def create_series_request(series_id):
     series_id = series_id.replace(' ', '')
     url = 'https://api.bls.gov/publicAPI/v2/timeseries/data'
@@ -44,47 +39,52 @@ def create_series_request(series_id):
     df = df[::-1]
     df.index = range(0,120, 1)
 
-    # df['date_info'] = pd.to_datetime(df['year'] + ' ' + df['periodName'], format="%Y %B")
+    df['timestamp'] = pd.to_datetime(df['year'] + ' ' + df['periodName'], format="%Y %B")
+    df['date_info'] = pd.to_datetime(df['timestamp'])
     df['num_of_employees'] = pd.to_numeric(df['value'])
     return df
 
 coal_request = create_series_request(coal_series['id'])
 gas_request = create_series_request(gas_series['id'])
 
+#create x and y values for coal data
 coal_employees = []
 coal_dates = []
-# print('coal_request:',coal_request)
-for i, coal_data in enumerate(coal_request.iterrows()):
-    # print('coal_data values:',coal_data[1]['value'])
+
+for coal_data in coal_request.iterrows():
     coal_employees.append(float(coal_data[1]['value']))
-    coal_dates.append(date1.shift(months=i).datetime)
-print("coal employees:", coal_employees)
-print("coal dates:", coal_dates)
+    coal_dates.append(coal_data[1]['date_info'])
 
-# gas_employees = []
-# gas_dates = []
-# for date in gas_request:
-#     gas_employees.append(float(gas_request['value']))
-#     gas_dates.append(gas_request['date_info'])
+#create x and y values for gas data
+gas_employees = []
+gas_dates = []
+for gas_data in gas_request.iterrows():
+    gas_employees.append(float(gas_data[1]['value']))
+    gas_dates.append(gas_data[1]['date_info'])
 
+#create figure and subplots
 fig = plt.figure()
 ax1 = fig.add_subplot(211)
 ax2 = fig.add_subplot(212)
 
+#create subplot for coal employees
+ax1.plot(coal_dates, coal_employees)
+ax1.grid(True)
+ax1.set_xlim(coal_dates[0],coal_dates[-1])
+minorLocator = AutoMinorLocator(12)
+ax1.xaxis.set_minor_locator(minorLocator)
+ax1.set_xticklabels([])
+ax1.set_title("Number of Coal Employees")
+ax1.set_ylabel("Number of employees (in thousands)")
 
-ax1.plot(coal_dates, coal_employees, 'Number of Coal Employees')
-fig.autofmt_xdate()
-# ax2.plot(gas_dates, gas_employees, 'Number of Gas Employees')
+#create subplot for gas employees
+ax2.plot(gas_dates, gas_employees)
+ax2.grid(True)
+ax2.set_xlim(gas_dates[0],gas_dates[-1])
+ax2.xaxis.set_minor_locator(minorLocator)
+ax2.set_title("Number of Gas Employees")
+ax2.set_ylabel("Number of employees (in thousands)")
 
-
-# df.plot(x='date_info', y='num_of_employees')
-# fig, axarr = plt.subplots(2, sharex=True)
-# axarr[0].plot(x, y)
-# plt.ylabel("Number of Employees (in thousands)")
-# plt.grid(True)
-# months = range(0, 12, 1)
-# multiple_loc = MultipleLocator(1)
-# plt.axes().xaxis.set_minor_locator(multiple_loc)
 plt.show()
 
 
